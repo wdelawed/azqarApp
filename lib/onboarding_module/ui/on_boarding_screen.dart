@@ -20,8 +20,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   void initState() {
     super.initState();
     _pageController.addListener(() {
+      // if(_pageController.page!.round() == _pageController.page)
       setState(() {
-        _selectedIndex = _pageController.page!.round();
+        _selectedIndex = _pageController.page!.floor();
       });
     });
   }

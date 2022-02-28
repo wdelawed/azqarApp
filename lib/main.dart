@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const [Locale("AR", "AE")],
+      supportedLocales: const [Locale("ar")],
       title: 'AZQAR',
       theme: ThemeData(
         textButtonTheme: AzkarMainButton,
