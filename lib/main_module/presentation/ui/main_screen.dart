@@ -1,4 +1,4 @@
-import 'package:azkar/about_us_module/ui/about_us_page.dart';
+import 'package:azkar/about_us_module/presentation/ui/about_us_page.dart';
 import 'package:azkar/config/global_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';

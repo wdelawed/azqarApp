@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [Locale("ar")],
       title: 'AZQAR',
       theme: ThemeData(
-        textButtonTheme: AzkarMainButton,
+        textButtonTheme: azkarMainButton,
         primaryColorLight: const Color(0xff17CA82),
         primarySwatch: Colors.green,
       ),

@@ -1,5 +1,5 @@
 import 'package:azkar/config/global_dart.dart';
-import 'package:azkar/main_module/ui/main_screen.dart';
+import 'package:azkar/main_module/presentation/ui/main_screen.dart';
 import 'package:azkar/onboarding_module/ui/onboarding_page.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
