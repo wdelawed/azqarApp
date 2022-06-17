@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.4
   flutter_bloc: ^8.0.1
   intl: ^0.17.0
+  permission_handler: ^9.0.2
 
 dev_dependencies:
   flutter_test:
@@ -79,3 +80,5 @@ flutter:
       fonts:
         - asset: assets/fonts/Cairo.ttf
 
+dependency_overrides:
+  url_launcher_web: 2.0.6
