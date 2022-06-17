@@ -3,6 +3,7 @@ import 'package:azkar/main_module/data/data_sources/remote_datasource.dart';
 import 'package:azkar/main_module/data/exceptions.dart';
 import 'package:azkar/main_module/data/models/prayer_timing/prayer_timing.dart';
 import 'package:azkar/main_module/data/failures.dart';
+import 'package:azkar/main_module/domain/entities/prayer_timing_entity/prayer_timing_entity.dart';
 import 'package:azkar/main_module/domain/repositories/abstract_prayer_timing_repository.dart';
 import 'package:either_dart/either.dart';
 
@@ -14,7 +15,7 @@ class PrayerTimingsRepository implements AbstractPrayerTimingsRepository {
   PrayerTimingsRepository({this.remoteDataSource, this.localDataSource});
 
   @override
-  Future<Either<Failure, PrayerTiming>> getTodaysPrayerTiming(
+  Future<Either<Failure, PrayerTimingEntity>> getTodaysPrayerTiming(
       String lat, String lng) async {
     final today = DateTime.now();
     final month = today.month.toString();
@@ -28,7 +29,7 @@ class PrayerTimingsRepository implements AbstractPrayerTimingsRepository {
       if (timings != null && timings.isNotEmpty) {
         final todaysCalendar =
             timings.firstWhere((t) => t.date?.gregorian?.day == day);
-        return Right(todaysCalendar);
+        return Right(todaysCalendar.toEntity());
       }
 
       throw (LocalDBException(
@@ -47,7 +48,7 @@ class PrayerTimingsRepository implements AbstractPrayerTimingsRepository {
         if (timings != null && timings.isNotEmpty) {
           final todaysCalendar =
               timings.firstWhere((t) => t.date?.gregorian?.day == day);
-          return Right(todaysCalendar);
+          return Right(todaysCalendar.toEntity());
         }
 
         throw (LocalDBException("No matching day in the remote repository"));

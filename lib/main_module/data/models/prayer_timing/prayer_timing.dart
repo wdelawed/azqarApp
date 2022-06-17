@@ -43,11 +43,11 @@ class PrayerTiming extends Equatable {
             asr: timings?.asr,
             maghrib: timings?.maghrib,
             isha: timings?.isha),
-        hijri: PrayerDate(
+        gregorian: PrayerDate(
             day: date?.gregorian?.day,
             month: date?.gregorian?.month?.en,
             year: date?.gregorian?.year),
-        gregorian: PrayerDate(
+        hijri: PrayerDate(
             day: date?.hijri?.day,
             month: date?.hijri?.month?.ar,
             year: date?.hijri?.year),
