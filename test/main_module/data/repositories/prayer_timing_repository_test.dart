@@ -1,12 +1,10 @@
-import 'dart:js_util';
-
+import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/main_module/data/data_sources/local_datasource.dart';
 import 'package:azkar/main_module/data/data_sources/remote_datasource.dart';
 import 'package:azkar/main_module/data/repositories/prayer_timing_repository.dart';
 import 'package:azkar/main_module/domain/entities/prayer_timing_entity/prayer_timing_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 void main() {
   group('Prayer Timing Repository ', () {
@@ -21,7 +19,7 @@ void main() {
       final day = currentDate.day.toString();
       final year = currentDate.year.toString();
 
-      String month = DateFormat('MMMM').format(currentDate);
+      String? month = months[currentDate.month];
 
       const lat = "15.5007";
       const lng = "32.5599";
@@ -31,7 +29,7 @@ void main() {
 
       //assert
       expect(true, equals(result.isRight));
-      expect(true, instanceof(result.right, PrayerTimingEntity));
+      expect(result.right, isA<PrayerTimingEntity>());
       expect(day, equals(result.right.gregorian?.day));
       expect(month, equals(result.right.gregorian?.month));
       expect(year, equals(result.right.gregorian?.year));

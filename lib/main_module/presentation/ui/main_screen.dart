@@ -1,11 +1,29 @@
 import 'package:azkar/about_us_module/presentation/ui/about_us_page.dart';
 import 'package:azkar/config/global_dart.dart';
+import 'package:azkar/main_module/presentation/bloc/prayertimings_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location/location.dart';
+
 import 'package:share_plus/share_plus.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   final ScrollController _scrollController =
       ScrollController(initialScrollOffset: 150);
+
+  @override
+  void initState() {
+    getLocationPermission();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,444 +116,490 @@ class MainScreen extends StatelessWidget {
                               Radius.circular(14),
                             ),
                           ),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 26, horizontal: 36),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "التقويم و مواقيت الصلاة",
-                                  style: primaryTextStyle?.copyWith(
-                                      fontSize: 18, color: Colors.black),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 11),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                          child: BlocBuilder<PrayertimingsBloc,
+                              PrayertimingsState>(
+                            builder: (context, state) {
+                              if (state is PrayerTimingsLoaded) {
+                                final todaysTimings = state.todaysTimings;
+
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 26, horizontal: 36),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                  "assets/icons/ic_calendar_hijri.png"),
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    right: 7, left: 7),
-                                                child: Text(
-                                                  "هجري",
-                                                  style: primaryTextStyle
-                                                      ?.copyWith(fontSize: 14),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Container(
-                                            width: 142,
-                                            height: 38,
-                                            margin:
-                                                const EdgeInsets.only(top: 10),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xff0099FF)
-                                                  .withOpacity(.07),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(7),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 17),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "8",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                  Text(
-                                                    "شعبان",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                  Text(
-                                                    "1442",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                      Text(
+                                        "التقويم و مواقيت الصلاة",
+                                        style: primaryTextStyle?.copyWith(
+                                            fontSize: 18, color: Colors.black),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                  "assets/icons/ic_calendar_miladi.png"),
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    right: 7, left: 7),
-                                                child: Text(
-                                                  "ميلادي",
-                                                  style: primaryTextStyle
-                                                      ?.copyWith(fontSize: 14),
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 11),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "assets/icons/ic_calendar_hijri.png"),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 7,
+                                                              left: 7),
+                                                      child: Text(
+                                                        "هجري",
+                                                        style: primaryTextStyle
+                                                            ?.copyWith(
+                                                                fontSize: 14),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
+                                                Container(
+                                                  width: 142,
+                                                  height: 38,
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff0099FF)
+                                                            .withOpacity(.07),
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(7),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 17),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "${todaysTimings.hijri?.day}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.hijri?.month}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.hijri?.year}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "assets/icons/ic_calendar_miladi.png"),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 7,
+                                                              left: 7),
+                                                      child: Text(
+                                                        "ميلادي",
+                                                        style: primaryTextStyle
+                                                            ?.copyWith(
+                                                                fontSize: 14),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Container(
+                                                  width: 142,
+                                                  height: 38,
+                                                  margin: const EdgeInsets.only(
+                                                      top: 10),
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff0099FF)
+                                                            .withOpacity(.07),
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(7),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 17),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "${todaysTimings.gregorian?.day}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.gregorian?.month}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.gregorian?.year}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 135,
+                                        margin: const EdgeInsets.only(top: 16),
+                                        child: RotatedBox(
+                                          quarterTurns: 1,
+                                          child: ListWheelScrollView(
+                                            controller: _scrollController,
+                                            itemExtent: 98,
+                                            magnification: 1.5,
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_fajr.png"),
+                                                        Text(
+                                                          "الفجر",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.fajr}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_sunrise.png"),
+                                                        Text(
+                                                          "الشروق",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.sunrise}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_zohr.png"),
+                                                        Text(
+                                                          "الظهر",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.dhuhr}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_asr.png"),
+                                                        Text(
+                                                          "العصر",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.asr}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_magrib.png"),
+                                                        Text(
+                                                          "المغرب",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.maghrib}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              RotatedBox(
+                                                quarterTurns: 3,
+                                                child: Container(
+                                                  width: 98,
+                                                  height: 135,
+                                                  child: Card(
+                                                    color:
+                                                        const Color(0xffFAFAFA),
+                                                    elevation: 0,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(7),
+                                                      ),
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/img_ishaa.png"),
+                                                        Text(
+                                                          "العشاء",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        ),
+                                                        Text(
+                                                          "${todaysTimings.timings?.isha}",
+                                                          style: primaryTextStyle
+                                                              ?.copyWith(
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                          Container(
-                                            width: 142,
-                                            height: 38,
-                                            margin:
-                                                const EdgeInsets.only(top: 10),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xff0099FF)
-                                                  .withOpacity(.07),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(7),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 17),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "12",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                  Text(
-                                                    "يونيو",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                  Text(
-                                                    "2021",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                        ),
                                       )
                                     ],
                                   ),
-                                ),
-                                Container(
-                                  height: 135,
-                                  margin: const EdgeInsets.only(top: 16),
-                                  child: RotatedBox(
-                                    quarterTurns: 1,
-                                    child: ListWheelScrollView(
-                                      controller: _scrollController,
-                                      itemExtent: 98,
-                                      magnification: 1.5,
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_fajr.png"),
-                                                  Text(
-                                                    "الفجر",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_sunrise.png"),
-                                                  Text(
-                                                    "الشروق",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_zohr.png"),
-                                                  Text(
-                                                    "الظهر",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_asr.png"),
-                                                  Text(
-                                                    "العصر",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_magrib.png"),
-                                                  Text(
-                                                    "المغرب",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Container(
-                                            width: 98,
-                                            height: 135,
-                                            child: Card(
-                                              color: const Color(0xffFAFAFA),
-                                              elevation: 0,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(7),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                      "assets/images/img_ishaa.png"),
-                                                  Text(
-                                                    "العشاء",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  ),
-                                                  Text(
-                                                    "1:30",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            height: 2,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                );
+                              }
+
+                              return const Center(
+                                child: SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1,
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              );
+                            },
                           )),
                     ),
                   ],
@@ -817,5 +881,43 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getLocationPermission() async {
+    Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        //TODO: notify user the the default location will be mecca's location, use snackbar
+
+        String lat = "21.3891";
+        String lng = "39.8579";
+
+        BlocProvider.of<PrayertimingsBloc>(context)
+            .add(PrayerTimingInitEvent(lat: lat, lng: lng));
+
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    BlocProvider.of<PrayertimingsBloc>(context).add(PrayerTimingInitEvent(
+        lat: _locationData.latitude.toString(),
+        lng: _locationData.longitude.toString()));
   }
 }

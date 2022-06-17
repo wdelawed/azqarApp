@@ -6,6 +6,7 @@ import 'package:azkar/main_module/domain/entities/prayer_timing_entity/timings.d
     as PT;
 import 'package:equatable/equatable.dart';
 
+import '../../../../config/global_dart.dart';
 import 'date.dart';
 import 'meta.dart';
 import 'timings.dart';
@@ -37,15 +38,15 @@ class PrayerTiming extends Equatable {
 
   PrayerTimingEntity toEntity() => PrayerTimingEntity(
         timings: PT.Timings(
-            fajr: timings?.fajr,
-            sunrise: timings?.sunrise,
-            dhuhr: timings?.dhuhr,
-            asr: timings?.asr,
-            maghrib: timings?.maghrib,
-            isha: timings?.isha),
+            fajr: timings?.fajr?.split(" ")[0],
+            sunrise: timings?.sunrise?.split(" ")[0],
+            dhuhr: timings?.dhuhr?.split(" ")[0],
+            asr: timings?.asr?.split(" ")[0],
+            maghrib: timings?.maghrib?.split(" ")[0],
+            isha: timings?.isha?.split(" ")[0]),
         gregorian: PrayerDate(
             day: date?.gregorian?.day,
-            month: date?.gregorian?.month?.en,
+            month: months[date?.gregorian?.month?.number],
             year: date?.gregorian?.year),
         hijri: PrayerDate(
             day: date?.hijri?.day,
