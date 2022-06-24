@@ -1,6 +1,7 @@
 import 'package:azkar/about_us_module/presentation/ui/about_us_page.dart';
 import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/main_module/presentation/bloc/prayertimings_bloc.dart';
+import 'package:azkar/zikr_collection_module/representation/ui/zikr_collection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart';
@@ -636,111 +637,131 @@ class _MainScreenState extends State<MainScreen> {
                               margin: const EdgeInsets.only(top: 10),
                               child: Column(
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    child: Material(
-                                      animationDuration:
-                                          const Duration(milliseconds: 500),
-                                      type: MaterialType.card,
-                                      elevation: 0,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(9),
-                                      ),
-                                      child: Container(
-                                        height: 51,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xffF9F9F9),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(9),
-                                          ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              const ZikrCollectionPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Material(
+                                        animationDuration:
+                                            const Duration(milliseconds: 500),
+                                        type: MaterialType.card,
+                                        elevation: 0,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(9),
                                         ),
                                         child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.asset(
-                                                  "assets/icons/ic_azkar_group.png"),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      right: 18),
-                                                  child: Text(
-                                                    "مجموعة الأذكار الصوتية",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                    textAlign: TextAlign.right,
+                                          height: 51,
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xffF9F9F9),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(9),
+                                            ),
+                                          ),
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                    "assets/icons/ic_azkar_group.png"),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 18),
+                                                    child: Text(
+                                                      "مجموعة الأذكار الصوتية",
+                                                      style: primaryTextStyle
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: Image.asset(
-                                                      "assets/icons/ic_chevron_left.png"))
-                                            ],
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Image.asset(
+                                                        "assets/icons/ic_chevron_left.png"))
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    child: Material(
-                                      animationDuration:
-                                          const Duration(milliseconds: 500),
-                                      type: MaterialType.card,
-                                      elevation: 0,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(9),
-                                      ),
-                                      child: Container(
-                                        height: 51,
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xffF9F9F9),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(9),
-                                          ),
+                                  InkWell(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: Material(
+                                        animationDuration:
+                                            const Duration(milliseconds: 500),
+                                        type: MaterialType.card,
+                                        elevation: 0,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(9),
                                         ),
                                         child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.asset(
-                                                  "assets/icons/ic_alarm_settings.png"),
-                                              Expanded(
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      right: 18, left: 18),
-                                                  child: Text(
-                                                    "إعدادات التنبيه",
-                                                    style: primaryTextStyle
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                    textAlign: TextAlign.right,
+                                          height: 51,
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xffF9F9F9),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(9),
+                                            ),
+                                          ),
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Image.asset(
+                                                    "assets/icons/ic_alarm_settings.png"),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 18,
+                                                            left: 18),
+                                                    child: Text(
+                                                      "إعدادات التنبيه",
+                                                      style: primaryTextStyle
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: Image.asset(
-                                                      "assets/icons/ic_chevron_left.png"))
-                                            ],
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Image.asset(
+                                                        "assets/icons/ic_chevron_left.png"))
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () {
                                       Share.share(
                                           "https://play.google.com/store/apps/details?id=easy.sudoku.puzzle.solver.free");
@@ -802,7 +823,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () {
                                       Navigator.push(
                                           context,

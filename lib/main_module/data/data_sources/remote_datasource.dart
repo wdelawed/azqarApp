@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 class RemoteDataSource implements AbstractDataSource {
   http.Client client;
+
   RemoteDataSource({required this.client});
   @override
   Future<List<PrayerTiming>> getPrayerMonthCalendar(

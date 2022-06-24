@@ -7,6 +7,6 @@ class LocalDataSource implements AbstractDataSource {
   Future<List<PrayerTiming>> getPrayerMonthCalendar(
       String lat, String long, String month, String year,
       {String calculationMethod = "2"}) {
-    throw LocalDBException("No local version of the data");
+    throw LocalDBException("No local version of prayer timing");
   }
 }
