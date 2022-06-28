@@ -18,5 +18,6 @@ class ZikrCollectionErrorState extends ZikrCollectionState {
 
 class ZikrCollectionLoadedState extends ZikrCollectionState {
   final List<ZikrEntity> zikrCollection;
-  const ZikrCollectionLoadedState(this.zikrCollection);
+  final AudioPlayer audioPlayer;
+  const ZikrCollectionLoadedState(this.zikrCollection, this.audioPlayer);
 }

@@ -1,6 +1,9 @@
 import 'package:azkar/about_us_module/presentation/ui/about_us_page.dart';
 import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/main_module/presentation/bloc/prayertimings_bloc.dart';
+import 'package:azkar/notifications_settings_module/presentation/blocs/azkar_notifications_settings_bloc.dart';
+import 'package:azkar/notifications_settings_module/presentation/pages/notifications_settings_module_page.dart';
+import 'package:azkar/zikr_collection_module/representation/bloc/bloc/zikr_collection_bloc.dart';
 import 'package:azkar/zikr_collection_module/representation/ui/zikr_collection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +25,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     getLocationPermission();
+
+    BlocProvider.of<ZikrCollectionBloc>(context).add(ZikrCollectionGetEvent());
+    BlocProvider.of<AzkarNotificationsSettingsBloc>(context)
+        .add(AzkarNotificationsSettingsFetchEvent());
     super.initState();
   }
 
@@ -326,7 +333,7 @@ class _MainScreenState extends State<MainScreen> {
                                             children: [
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -369,7 +376,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -412,7 +419,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -455,7 +462,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -498,7 +505,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -541,7 +548,7 @@ class _MainScreenState extends State<MainScreen> {
                                               ),
                                               RotatedBox(
                                                 quarterTurns: 3,
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 98,
                                                   height: 135,
                                                   child: Card(
@@ -637,30 +644,31 @@ class _MainScreenState extends State<MainScreen> {
                               margin: const EdgeInsets.only(top: 10),
                               child: Column(
                                 children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const ZikrCollectionPage(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
-                                      child: Material(
-                                        animationDuration:
-                                            const Duration(milliseconds: 500),
-                                        type: MaterialType.card,
-                                        elevation: 0,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(9),
-                                        ),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: Material(
+                                      color: const Color(0xffF9F9F9),
+                                      clipBehavior: Clip.hardEdge,
+                                      animationDuration:
+                                          const Duration(milliseconds: 500),
+                                      type: MaterialType.card,
+                                      elevation: 0,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(9),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const ZikrCollectionPage(),
+                                            ),
+                                          );
+                                        },
                                         child: Container(
                                           height: 51,
                                           decoration: const BoxDecoration(
-                                            color: Color(0xffF9F9F9),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(9),
                                             ),
@@ -703,21 +711,29 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-                                  InkWell(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
-                                      child: Material(
-                                        animationDuration:
-                                            const Duration(milliseconds: 500),
-                                        type: MaterialType.card,
-                                        elevation: 0,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(9),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: Material(
+                                      color: const Color(0xffF9F9F9),
+                                      clipBehavior: Clip.hardEdge,
+                                      animationDuration:
+                                          const Duration(milliseconds: 500),
+                                      type: MaterialType.card,
+                                      elevation: 0,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(9),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const NotificationsSettingsPage(),
+                                          ),
                                         ),
                                         child: Container(
                                           height: 51,
                                           decoration: const BoxDecoration(
-                                            color: Color(0xffF9F9F9),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(9),
                                             ),
@@ -761,25 +777,28 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Share.share(
-                                          "https://play.google.com/store/apps/details?id=easy.sudoku.puzzle.solver.free");
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
-                                      child: Material(
-                                        animationDuration:
-                                            const Duration(milliseconds: 500),
-                                        type: MaterialType.card,
-                                        elevation: 0,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(9),
-                                        ),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: Material(
+                                      clipBehavior: Clip.hardEdge,
+                                      animationDuration:
+                                          const Duration(milliseconds: 500),
+                                      type: MaterialType.card,
+                                      elevation: 0,
+                                      color: const Color(0xffF9F9F9),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(9),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Share.share(
+                                              "https://play.google.com/store/apps/details?id=easy.sudoku.puzzle.solver.free");
+                                        },
                                         child: Container(
                                           height: 51,
                                           decoration: const BoxDecoration(
-                                            color: Color(0xffF9F9F9),
+                                            color: Colors.transparent,
+                                            //color: Color(0xffF9F9F9),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(9),
                                             ),
@@ -823,27 +842,29 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => AboutUsPage()));
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(bottom: 8),
-                                      child: Material(
-                                        animationDuration:
-                                            const Duration(milliseconds: 500),
-                                        type: MaterialType.card,
-                                        elevation: 0,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(9),
-                                        ),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: Material(
+                                      color: const Color(0xffF9F9F9),
+                                      clipBehavior: Clip.hardEdge,
+                                      animationDuration:
+                                          const Duration(milliseconds: 500),
+                                      type: MaterialType.card,
+                                      elevation: 0,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(9),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const AboutUsPage()));
+                                        },
                                         child: Container(
                                           height: 51,
                                           decoration: const BoxDecoration(
-                                            color: Color(0xffF9F9F9),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(9),
                                             ),

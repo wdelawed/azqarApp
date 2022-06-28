@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void jump() async {
     await Future.delayed(const Duration(milliseconds: 2000));
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const OnBoardingScreen(),

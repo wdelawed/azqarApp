@@ -1,5 +1,4 @@
 import 'package:azkar/config/global_dart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AboutUsPage extends StatelessWidget {
@@ -116,7 +115,7 @@ class AboutUsPage extends StatelessWidget {
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(bottom: 11),
-                                      child: Text(
+                                      child: const Text(
                                         "فريق التصميم و الفنون البصرية",
                                         style: primaryTextStyle,
                                       ),
@@ -154,7 +153,7 @@ class AboutUsPage extends StatelessWidget {
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(bottom: 11),
-                                      child: Text(
+                                      child: const Text(
                                         "فريق التطوير",
                                         style: primaryTextStyle,
                                       ),
@@ -192,7 +191,7 @@ class AboutUsPage extends StatelessWidget {
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(bottom: 11),
-                                      child: Text(
+                                      child: const Text(
                                         "فريق التصميم و الفنون البصرية",
                                         style: primaryTextStyle,
                                       ),

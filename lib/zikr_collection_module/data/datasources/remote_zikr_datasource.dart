@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:azkar/azkar_cache_manager.dart';
 import 'package:azkar/zikr_collection_module/data/models/zikr.dart';
 import 'package:azkar/zikr_collection_module/data/datasources/abstract_datasource.dart';
 import 'package:http/http.dart' as http;
@@ -16,9 +17,22 @@ class RemoteZikrDataSource extends AbstractZikrDataSource {
 
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
-      return (json["audioFilesList"] as List)
-          .map((e) => Zikr.fromMap(e))
-          .toList();
+      final azkarList =
+          (json["audioFilesList"] as List).map((e) => Zikr.fromMap(e)).toList();
+      for (var zikr in azkarList) {
+        if (zikr.file != null && zikr.audioId != null) {
+          AzkraCacheManager.instance
+              .getFileFromCache("ZikrFile${zikr.audioId}")
+              .then((fileinfo) => {
+                    if (fileinfo == null)
+                      {
+                        AzkraCacheManager.instance.downloadFile(zikr.file ?? "",
+                            key: "ZikrFile${zikr.audioId}", force: true)
+                      }
+                  });
+        }
+      }
+      return azkarList;
     }
     throw ServerException("Invalid response");
   }

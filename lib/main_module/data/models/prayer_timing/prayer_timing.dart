@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:azkar/main_module/domain/entities/prayer_timing_entity/hijri.dart';
 import 'package:azkar/main_module/domain/entities/prayer_timing_entity/prayer_timing_entity.dart';
 import 'package:azkar/main_module/domain/entities/prayer_timing_entity/timings.dart'
-    as PT;
+    as pt;
 import 'package:equatable/equatable.dart';
 
 import '../../../../config/global_dart.dart';
@@ -37,7 +37,7 @@ class PrayerTiming extends Equatable {
       };
 
   PrayerTimingEntity toEntity() => PrayerTimingEntity(
-        timings: PT.Timings(
+        timings: pt.Timings(
             fajr: timings?.fajr?.split(" ")[0],
             sunrise: timings?.sunrise?.split(" ")[0],
             dhuhr: timings?.dhuhr?.split(" ")[0],

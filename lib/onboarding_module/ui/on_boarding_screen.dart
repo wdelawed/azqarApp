@@ -110,7 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           });
                         } else {
                           //jump to main screen here
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               CupertinoPageRoute(
                                   builder: (context) => MainScreen()));

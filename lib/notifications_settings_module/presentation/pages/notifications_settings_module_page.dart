@@ -1,26 +1,27 @@
-import 'package:azkar/azkar_cache_manager.dart';
 import 'package:azkar/config/global_dart.dart';
-import 'package:azkar/notifications_settings_module/data/models/not_setting_item.dart';
+import 'package:azkar/notifications_settings_module/presentation/blocs/azkar_notifications_settings_bloc.dart';
 import 'package:azkar/shared_libs/blocs/azkar_audio_player_bloc.dart';
-import 'package:azkar/zikr_collection_module/representation/bloc/bloc/zikr_collection_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
-class ZikrCollectionPage extends StatefulWidget {
-  const ZikrCollectionPage({Key? key}) : super(key: key);
+class NotificationsSettingsPage extends StatefulWidget {
+  const NotificationsSettingsPage({Key? key, this.arguments}) : super(key: key);
+  final Map<String, dynamic>? arguments;
 
   @override
-  State<ZikrCollectionPage> createState() => _ZikrCollectionPageState();
+  _NotificationsSettingsPageState createState() =>
+      _NotificationsSettingsPageState();
 }
 
-class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
-  int playingAudioIndex = -1;
-
+class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -108,12 +109,12 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "الأذكار الصوتية",
+                                    "إعدادات التنبيه",
                                     style: primaryTextStyle?.copyWith(
                                         fontSize: 18, color: Colors.black),
                                   ),
                                   const Icon(
-                                    Icons.info_outline,
+                                    Icons.alarm,
                                     size: 27,
                                     color: Color(0xffFF9200),
                                   )
@@ -127,13 +128,15 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                       const Color(0xff707070).withOpacity(.11),
                                 ),
                               ),
-                              BlocBuilder<ZikrCollectionBloc,
-                                  ZikrCollectionState>(builder: (_, state) {
-                                if (state is ZikrCollectionLoadedState) {
+                              BlocBuilder<AzkarNotificationsSettingsBloc,
+                                      AzkarNotificationsSettingsState>(
+                                  builder: (_, state) {
+                                if (state
+                                    is AzkarNotificationsSettingsLoadedState) {
                                   return SizedBox(
-                                    height: 400,
+                                    height: 500,
                                     child: ListView.builder(
-                                      itemCount: state.zikrCollection.length,
+                                      itemCount: state.settings.length,
                                       itemBuilder: (_, index) => Card(
                                         elevation: 0,
                                         child: BlocBuilder<AzkarAudioPlayerBloc,
@@ -142,16 +145,28 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                             if (playerState
                                                     is AzkarAudioPlayerPlayingState &&
                                                 playerState.tackId ==
-                                                    state.zikrCollection[index]
-                                                        .id) {
+                                                    state.settings[index]
+                                                        .zikrAudioId) {
                                               return ListTile(
                                                 selected: true,
                                                 tileColor:
                                                     const Color(0xffFCFCFC),
+                                                subtitle: Text(
+                                                  state.settings[index]
+                                                          .notificationEnabled
+                                                      ? "كل ${state.settings[index].notificationPeriodArabic}"
+                                                      : "التنبيه لا يعمل لهذا الذكر",
+                                                  style: secondaryTextStyle
+                                                      ?.copyWith(
+                                                    fontSize: 9,
+                                                    color: secondaryTextStyle
+                                                        ?.color
+                                                        ?.withOpacity(.7),
+                                                  ),
+                                                ),
                                                 title: Text(
-                                                  state.zikrCollection[index]
-                                                          .name ??
-                                                      "null",
+                                                  state
+                                                      .settings[index].zikrName,
                                                   style: secondaryTextStyle,
                                                 ),
                                                 trailing: Container(
@@ -175,26 +190,13 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                                       size: 18,
                                                     ),
                                                     onPressed: () {
-                                                      final zikr =
-                                                          state.zikrCollection[
-                                                              index];
-                                                      BlocProvider
-                                                              .of<
-                                                                      AzkarAudioPlayerBloc>(
-                                                                  context)
+                                                      BlocProvider.of<
+                                                                  AzkarAudioPlayerBloc>(
+                                                              context)
                                                           .add(AzkarAudioPlayerPauseEvent(
-                                                              track: NotSettingItem(
-                                                                  soundTrackUrl:
-                                                                      zikr.url ??
-                                                                          "",
-                                                                  zikrAudioId:
-                                                                      zikr.id ??
-                                                                          -1,
-                                                                  zikrName: zikr
-                                                                          .name ??
-                                                                      "Zikr Name",
-                                                                  notificationEnabled:
-                                                                      false)));
+                                                              track: state
+                                                                      .settings[
+                                                                  index]));
                                                     },
                                                   ),
                                                 ),
@@ -203,16 +205,28 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                             if (playerState
                                                     is AzkarAudioPlayerLoadingState &&
                                                 playerState.tackId ==
-                                                    state.zikrCollection[index]
-                                                        .id) {
+                                                    state.settings[index]
+                                                        .zikrAudioId) {
                                               return ListTile(
                                                 tileColor:
                                                     const Color(0xffFCFCFC),
                                                 title: Text(
-                                                  state.zikrCollection[index]
-                                                          .name ??
-                                                      "null",
+                                                  state
+                                                      .settings[index].zikrName,
                                                   style: secondaryTextStyle,
+                                                ),
+                                                subtitle: Text(
+                                                  state.settings[index]
+                                                          .notificationEnabled
+                                                      ? "كل ${state.settings[index].notificationPeriodArabic}"
+                                                      : "التنبيه لا يعمل لهذا الذكر",
+                                                  style: secondaryTextStyle
+                                                      ?.copyWith(
+                                                    fontSize: 9,
+                                                    color: secondaryTextStyle
+                                                        ?.color
+                                                        ?.withOpacity(.7),
+                                                  ),
                                                 ),
                                                 trailing: Container(
                                                   width: 34,
@@ -243,12 +257,23 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                               tileColor:
                                                   const Color(0xffFCFCFC),
                                               title: Text(
-                                                state.zikrCollection[index]
-                                                        .name ??
-                                                    "",
+                                                state.settings[index].zikrName,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: secondaryTextStyle,
+                                              ),
+                                              subtitle: Text(
+                                                state.settings[index]
+                                                        .notificationEnabled
+                                                    ? "كل ${state.settings[index].notificationPeriodArabic}"
+                                                    : "التنبيه لا يعمل لهذا الذكر",
+                                                style: secondaryTextStyle
+                                                    ?.copyWith(
+                                                  fontSize: 9,
+                                                  color: secondaryTextStyle
+                                                      ?.color
+                                                      ?.withOpacity(.7),
+                                                ),
                                               ),
                                               trailing: Container(
                                                 width: 34,
@@ -270,25 +295,13 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                                     size: 18,
                                                   ),
                                                   onPressed: () async {
-                                                    final zikr = state
-                                                        .zikrCollection[index];
-                                                    BlocProvider
-                                                            .of<
-                                                                    AzkarAudioPlayerBloc>(
-                                                                context)
+                                                    BlocProvider.of<
+                                                                AzkarAudioPlayerBloc>(
+                                                            context)
                                                         .add(AzkarAudioPlayerPlayEvent(
-                                                            track: NotSettingItem(
-                                                                soundTrackUrl:
-                                                                    zikr.url ??
-                                                                        "",
-                                                                zikrAudioId:
-                                                                    zikr.id ??
-                                                                        -1,
-                                                                zikrName: zikr
-                                                                        .name ??
-                                                                    "Zikr Name",
-                                                                notificationEnabled:
-                                                                    false)));
+                                                            track:
+                                                                state.settings[
+                                                                    index]));
                                                   },
                                                 ),
                                               ),
@@ -299,11 +312,11 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                     ),
                                   );
                                 }
-                                return Center(
-                                  child: Container(
+                                return const Center(
+                                  child: SizedBox(
                                     width: 16,
                                     height: 16,
-                                    child: const CircularProgressIndicator(
+                                    child: CircularProgressIndicator(
                                       strokeWidth: 1,
                                     ),
                                   ),
