@@ -1,4 +1,4 @@
-# Azkar - Android App ![Build status](https://github.com/Azkar/android-app/workflows/CI/badge.svg?branch=master)
+# Azkar - Mobile App [![CI](https://github.com/wdelawed/azqarApp/actions/workflows/ci.yml/badge.svg)](https://github.com/wdelawed/azqarApp/actions/workflows/ci.yml)
 
 <img src="/readme/appLogo.png" align="left"
 width="200" hspace="10" vspace="10">
