@@ -8,7 +8,9 @@ class EnableZikrNotificationUseCase {
 
   final NotificationsSettingsRepository repository;
 
-  Future<Either<Failure, bool>> execute(int zikrId, Duration duration) async {
-    return repository.enableNotification(zikrId, duration);
+  Future<Either<Failure, bool>> execute(int zikrId, Duration duration,
+      String periodArabic, String periodEnglish) async {
+    return repository.enableNotification(
+        zikrId, duration, periodArabic, periodEnglish);
   }
 }

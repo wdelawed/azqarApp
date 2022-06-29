@@ -21,11 +21,6 @@ class NotificationsSettingsRemoteDataSource
   }
 
   @override
-  Future<void> enableNotification(int zikrId, Duration duration) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<NotSettingItem>> getNotificationsSettings() async {
     final res = await client.get(Uri.parse(
         "http://nebroprog10-001-site1.itempurl.com/AudioFiles/AudiosList"));
@@ -51,5 +46,12 @@ class NotificationsSettingsRemoteDataSource
       return azkarList;
     }
     throw ServerException("Invalid response");
+  }
+
+  @override
+  Future<void> enableNotification(int zikrId, Duration duration,
+      String periodArabic, String periodEnglish) {
+    // TODO: implement enableNotification
+    throw UnimplementedError();
   }
 }

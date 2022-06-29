@@ -14,8 +14,13 @@ class AzkarNotificationsSettingsEnableEvent
     extends AzkarNotificationsSettingsEvent {
   final int zikrId;
   final Duration duration;
+  final String periodArabic;
+  final String periodEnglish;
   const AzkarNotificationsSettingsEnableEvent(
-      {required this.zikrId, required this.duration});
+      {required this.zikrId,
+      required this.duration,
+      required this.periodArabic,
+      required this.periodEnglish});
 }
 
 class AzkarNotificationsSettingsDisableEvent

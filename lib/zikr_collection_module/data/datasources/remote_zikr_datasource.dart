@@ -17,8 +17,10 @@ class RemoteZikrDataSource extends AbstractZikrDataSource {
 
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
-      final azkarList =
-          (json["audioFilesList"] as List).map((e) => Zikr.fromMap(e)).toList();
+      final azkarList = (json["audioFilesList"] as List)
+          .where((element) => element["audioName"] != "AppCover")
+          .map((e) => Zikr.fromMap(e))
+          .toList();
       for (var zikr in azkarList) {
         if (zikr.file != null && zikr.audioId != null) {
           AzkraCacheManager.instance

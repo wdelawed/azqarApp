@@ -1,5 +1,7 @@
 import 'package:azkar/config/global_dart.dart';
+import 'package:azkar/notifications_settings_module/data/models/not_setting_item.dart';
 import 'package:azkar/notifications_settings_module/presentation/blocs/azkar_notifications_settings_bloc.dart';
+import 'package:azkar/notifications_settings_module/presentation/pages/zikr_notifications_dialog.dart';
 import 'package:azkar/shared_libs/blocs/azkar_audio_player_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -148,6 +150,9 @@ class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
                                                     state.settings[index]
                                                         .zikrAudioId) {
                                               return ListTile(
+                                                onTap: () =>
+                                                    changeNotificationSettings(
+                                                        state.settings[index]),
                                                 selected: true,
                                                 tileColor:
                                                     const Color(0xffFCFCFC),
@@ -208,6 +213,9 @@ class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
                                                     state.settings[index]
                                                         .zikrAudioId) {
                                               return ListTile(
+                                                onTap: () =>
+                                                    changeNotificationSettings(
+                                                        state.settings[index]),
                                                 tileColor:
                                                     const Color(0xffFCFCFC),
                                                 title: Text(
@@ -254,6 +262,9 @@ class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
                                             }
 
                                             return ListTile(
+                                              onTap: () =>
+                                                  changeNotificationSettings(
+                                                      state.settings[index]),
                                               tileColor:
                                                   const Color(0xffFCFCFC),
                                               title: Text(
@@ -335,5 +346,10 @@ class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
         ),
       ),
     );
+  }
+
+  void changeNotificationSettings(NotSettingItem zikr) async {
+    final res = await showDialog(
+        context: context, builder: (_) => ZikrNotificationsDialog(zikr: zikr));
   }
 }

@@ -6,8 +6,8 @@ import '../../data/models/not_setting_item.dart';
 abstract class AbstractNotificationsSettingsRepository {
   Future<Either<Failure, List<NotSettingItem>>> getNotificationsSettings();
 
-  Future<Either<Failure, void>> enableNotification(
-      int zikrId, Duration duration);
+  Future<Either<Failure, bool>> enableNotification(
+      int zikrId, Duration duration, String periodArabic, String periodEnglish);
   Future<Either<Failure, void>> disableNotification(int zikrId);
 
   // Future<Either<Failure, void>> createZikrIfNotExists(NotSettingItem zikr);

@@ -40,21 +40,26 @@ class NotificationsSettingsLocalDataSource
         throw LocalDBException(
             "couldn't disable notifications on Zikr: ${item.toJson()}");
       }
+      return;
     }
     throw LocalDBException("Couldn't find Zikr with Id $zikrId");
   }
 
   @override
-  Future<void> enableNotification(int zikrId, Duration duration) async {
+  Future<void> enableNotification(int zikrId, Duration duration,
+      String periodArabic, String periodEnglish) async {
     final item = await dbProvider.getZikrSetting(zikrId);
     if (item != null) {
       final res = await dbProvider.updateZikrSetting(item.copyWith(
           notificationEnabled: true,
+          notificationPeriodArabic: periodArabic,
+          notificationPeriodEnglish: periodEnglish,
           notificationIntervalMinutes: duration.inMinutes));
       if (!res) {
         throw LocalDBException(
             "couldn't enable notifications on Zikr: ${item.toJson()}");
       }
+      return;
     }
     throw LocalDBException("Couldn't find Zikr with Id $zikrId");
   }
@@ -63,7 +68,8 @@ class NotificationsSettingsLocalDataSource
 abstract class AbstractNotificationsSettingsDataSource {
   Future<List<NotSettingItem>> getNotificationsSettings();
 
-  Future<void> enableNotification(int zikrId, Duration duration);
+  Future<void> enableNotification(
+      int zikrId, Duration duration, String periodArabic, String periodEnglish);
   Future<void> disableNotification(int zikrId);
 
   Future<void> createZikrIfNotExists(NotSettingItem zikr);

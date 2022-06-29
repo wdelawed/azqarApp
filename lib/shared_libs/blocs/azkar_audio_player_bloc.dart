@@ -12,24 +12,45 @@ part 'azkar_audio_player_state.dart';
 class AzkarAudioPlayerBloc
     extends Bloc<AzkarAudioPlayerEvent, AzkarAudioPlayerState> {
   int trackId = -1;
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  static AudioPlayer? audioPlayer;
+
+  NotSettingItem? currentTrack;
   AzkarAudioPlayerBloc() : super(AzkarAudioPlayerInitial()) {
+    audioPlayer ??= AudioPlayer();
+
+    audioPlayer?.playerStateStream.listen((playerState) {
+      if (playerState.playing &&
+          state is! AzkarAudioPlayerLoadingState &&
+          trackId != -1) {
+        if (currentTrack != null) {
+          add(AzkarAudioPlayerPlayEvent(
+              track: currentTrack ?? NotSettingItem.fromJson("")));
+        }
+      } else if (!playerState.playing &&
+          state is! AzkarAudioPlayerPausedState) {
+        if (playerState.processingState == ProcessingState.completed &&
+            currentTrack != null) {
+          add(AzkarAudioPlayerPauseEvent(
+              track: currentTrack ?? NotSettingItem.fromJson("")));
+        }
+      }
+    });
     on<AzkarAudioPlayerPlayEvent>((event, emit) async {
       emit(AzkarAudioPlayerLoadingState(tackId: event.track.zikrAudioId));
 
-      if (!_audioPlayer.playing && event.track.zikrAudioId == trackId) {
+      if (!audioPlayer!.playing && event.track.zikrAudioId == trackId) {
         //we need to resume this track
         emit(AzkarAudioPlayerPlayingState(tackId: trackId));
-        await _audioPlayer.play();
+        await audioPlayer?.play();
         //wait for play to finish then stop playing
-        await _audioPlayer.stop();
+        await audioPlayer?.stop();
         trackId = -1;
         emit(AzkarAudioPlayerPausedState());
       } else {
-        if (_audioPlayer.playing && event.track.zikrAudioId != trackId) {
+        if (audioPlayer!.playing && event.track.zikrAudioId != trackId) {
           //playing another track need to stop it
 
-          await _audioPlayer.stop();
+          await audioPlayer?.stop();
         }
         //play a new track
         try {
@@ -38,21 +59,22 @@ class AzkarAudioPlayerBloc
           final fileInfo = await AzkraCacheManager.instance
               .getFileFromCache("ZikrFile${event.track.zikrAudioId}");
 
-          await _audioPlayer.setAudioSource(AudioSource.uri(
+          await audioPlayer?.setAudioSource(AudioSource.uri(
             fileInfo?.file.absolute.uri != null
                 ? Uri.file(fileInfo?.file.absolute.path ?? "")
                 : Uri.parse(event.track.soundTrackUrl),
             tag: MediaItem(
-              id: event.track.zikrAudioId.toString(),
-              album: "الأذكار",
-              title: event.track.zikrName,
-            ),
+                id: event.track.zikrAudioId.toString(),
+                album: "الأذكار",
+                title: event.track.zikrName,
+                artUri: Uri.parse(
+                    "http://nebroprog10-001-site1.itempurl.com/Uploads/art_cover.jpg")),
           ));
 
           trackId = event.track.zikrAudioId;
           emit(AzkarAudioPlayerPlayingState(tackId: trackId));
-          await _audioPlayer.play();
-          await _audioPlayer.stop();
+          await audioPlayer?.play();
+          await audioPlayer?.stop();
           trackId = -1; //stop playing any audio
           emit(AzkarAudioPlayerPausedState());
         } catch (e) {
@@ -66,7 +88,7 @@ class AzkarAudioPlayerBloc
     on<AzkarAudioPlayerPauseEvent>((event, emit) async {
       emit(AzkarAudioPlayerLoadingState(tackId: event.track.zikrAudioId));
       if (event.track.zikrAudioId == trackId) {
-        await _audioPlayer.pause();
+        await audioPlayer?.pause();
         trackId = -1;
         emit(AzkarAudioPlayerPausedState());
       }

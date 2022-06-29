@@ -25,10 +25,11 @@ class NotificationsSettingsRepository
   }
 
   @override
-  Future<Either<Failure, bool>> enableNotification(
-      int zikrId, Duration duration) async {
+  Future<Either<Failure, bool>> enableNotification(int zikrId,
+      Duration duration, String periodArabic, String periodEnglish) async {
     try {
-      await localDataSource.disableNotification(zikrId);
+      await localDataSource.enableNotification(
+          zikrId, duration, periodArabic, periodEnglish);
       return const Right(true);
     } catch (e) {
       return Left(Failure(message: e.toString()));
@@ -39,20 +40,19 @@ class NotificationsSettingsRepository
   Future<Either<Failure, List<NotSettingItem>>>
       getNotificationsSettings() async {
     try {
-      final res = await localDataSource.getNotificationsSettings();
+      final res = await remoteDataSource.getNotificationsSettings();
+      for (var zikr in res) {
+        localDataSource.createZikrIfNotExists(zikr);
+      }
       return Right(res);
     } catch (e) {
       List<NotSettingItem> res = [];
       try {
-        res = await remoteDataSource.getNotificationsSettings();
-        for (var zikr in res) {
-          localDataSource.createZikrIfNotExists(zikr);
-        }
+        res = await localDataSource.getNotificationsSettings();
+
         return Right(res);
-      } on ServerException {
-        return Left(Failure(message: e.toString()));
       } on LocalDBException {
-        return Right(res);
+        return Left(Failure(message: e.toString()));
       }
     }
   }
