@@ -31,24 +31,24 @@ The android app lets you:
 
 ## Screenshots
 
-[<img src="readme/1.jpg" align="left"
+[<img src="readme/1.jpeg" align="left"
 width="200"
-    hspace="10" vspace="10">](/readme/1.png)
-[<img src="/readme/2.png" align="center"
+    hspace="10" vspace="10">](/readme/1.jpeg)
+[<img src="/readme/2.jpeg" align="center"
 width="200"
-    hspace="10" vspace="10">](/readme/2.png)
-[<img src="/readme/3.png" align="center"
+    hspace="10" vspace="10">](/readme/2.jpeg)
+[<img src="/readme/3.jpeg" align="center"
 width="200"
-    hspace="10" vspace="10">](/readme/3.png)
-[<img src="/readme/4.png" align="center"
+    hspace="10" vspace="10">](/readme/3.jpeg)
+[<img src="/readme/4.jpeg" align="center"
 width="200"
-    hspace="10" vspace="10">](/readme/4.png)
-[<img src="/readme/5.png" align="center"
+    hspace="10" vspace="10">](/readme/4.jpeg)
+[<img src="/readme/5.jpeg" align="center"
 width="200"
-    hspace="10" vspace="10">](/readme/5.png)
-[<img src="/readme/6.png" align="center"
+    hspace="10" vspace="10">](/readme/5.jpeg)
+[<img src="/readme/6.jpeg" align="center"
 width="200"
-    hspace="10" vspace="10">](/readme/6.png)
+    hspace="10" vspace="10">](/readme/6.jpeg)
 
 ## Permissions
 
