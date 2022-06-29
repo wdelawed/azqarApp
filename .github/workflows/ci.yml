@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        category: [static, unit, widget]
+        category: [unit]
       fail-fast: false
     steps:
     - name: Clone the repository
