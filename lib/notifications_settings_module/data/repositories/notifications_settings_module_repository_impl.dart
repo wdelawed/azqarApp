@@ -42,9 +42,15 @@ class NotificationsSettingsRepository
     try {
       final res = await remoteDataSource.getNotificationsSettings();
       for (var zikr in res) {
-        localDataSource.createZikrIfNotExists(zikr);
+        await localDataSource.createZikrIfNotExists(zikr);
       }
-      return Right(res);
+      try {
+        final res = await localDataSource.getNotificationsSettings();
+        return Right(res);
+      } on LocalDBException {
+        return const Left(Failure(
+            message: "Couldn't get Zikr Settings from the local database"));
+      }
     } catch (e) {
       List<NotSettingItem> res = [];
       try {
