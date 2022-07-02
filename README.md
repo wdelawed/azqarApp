@@ -1,4 +1,4 @@
-# Azkar - Mobile App [![CI](https://github.com/wdelawed/azqarApp/actions/workflows/ci.yml/badge.svg)](https://github.com/wdelawed/azqarApp/actions/workflows/ci.yml)
+# Azkar - Mobile App [![Codemagic build status](https://api.codemagic.io/apps/62a708160a17ac1e12401903/62a708160a17ac1e12401902/status_badge.svg)](https://codemagic.io/apps/62a708160a17ac1e12401903/62a708160a17ac1e12401902/latest_build)
 
 <img src="/readme/appLogo.png" align="left"
 width="200" hspace="10" vspace="10">
