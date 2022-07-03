@@ -20,15 +20,16 @@ class PrayerTimingsRepository implements AbstractPrayerTimingsRepository {
     final today = DateTime.now();
     final month = today.month.toString();
     final year = today.year.toString();
-    final day = today.day.toString();
+    final int day = today.day;
 
     //first try to get the data from the local datasource
     try {
       List<PrayerTiming>? timings =
           await localDataSource?.getPrayerMonthCalendar(lat, lng, month, year);
       if (timings != null && timings.isNotEmpty) {
-        final todaysCalendar =
-            timings.firstWhere((t) => t.date?.gregorian?.day == day);
+        final todaysCalendar = timings.firstWhere((t) {
+          return int.parse(t.date?.gregorian?.day ?? "-1") == day;
+        });
         return Right(todaysCalendar.toEntity());
       }
 
@@ -46,8 +47,9 @@ class PrayerTimingsRepository implements AbstractPrayerTimingsRepository {
         List<PrayerTiming>? timings = await remoteDataSource
             ?.getPrayerMonthCalendar(lat, lng, month, year);
         if (timings != null && timings.isNotEmpty) {
-          final todaysCalendar =
-              timings.firstWhere((t) => t.date?.gregorian?.day == day);
+          final todaysCalendar = timings.firstWhere((t) {
+            return int.parse(t.date?.gregorian?.day ?? "-1") == day;
+          });
           return Right(todaysCalendar.toEntity());
         }
 

@@ -14,6 +14,7 @@ import 'package:workmanager/workmanager.dart';
 import 'dependency_injection.dart' as di;
 
 void callbackDispatcher() {
+  WidgetsFlutterBinding.ensureInitialized();
   Workmanager().executeTask((task, inputData) async {
     await JustAudioBackground.init(
         androidNotificationChannelId: 'com.khair.azkar.notifications',
@@ -34,9 +35,10 @@ void callbackDispatcher() {
 AzkarAudioPlayerBloc? audioPlayerBloc;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   di.init();
   audioPlayerBloc = AzkarAudioPlayerBloc();
-  WidgetsFlutterBinding.ensureInitialized();
+
   await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   await JustAudioBackground.init(
       androidNotificationChannelId: 'com.khair.azkar.notifications',
