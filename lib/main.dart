@@ -5,6 +5,7 @@ import 'package:azkar/notifications_settings_module/presentation/blocs/azkar_not
 import 'package:azkar/shared_libs/blocs/azkar_audio_player_bloc.dart';
 import 'package:azkar/splash_module/ui/splash_screen.dart';
 import 'package:azkar/zikr_collection_module/representation/bloc/bloc/zikr_collection_bloc.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,23 +13,24 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:workmanager/workmanager.dart';
 import 'dependency_injection.dart' as di;
+import 'package:firebase_core/firebase_core.dart';
 
-void callbackDispatcher() {
-  WidgetsFlutterBinding.ensureInitialized();
+void callbackDispatcher() async {
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  await JustAudioBackground.init(
+      androidNotificationChannelId: 'com.khair.azkar.notifications',
+      androidNotificationChannelName: 'الأذكار',
+      androidNotificationOngoing: true,
+      notificationColor: appButtonPrimaryColor);
+  audioPlayerBloc ??= AzkarAudioPlayerBloc();
   Workmanager().executeTask((task, inputData) async {
-    await JustAudioBackground.init(
-        androidNotificationChannelId: 'com.khair.azkar.notifications',
-        androidNotificationChannelName: 'الأذكار',
-        androidNotificationOngoing: true,
-        notificationColor: appButtonPrimaryColor);
-
-    audioPlayerBloc ??= AzkarAudioPlayerBloc();
     final zikrItem = NotSettingItem.fromMap(inputData ?? {});
     audioPlayerBloc?.add(AzkarAudioPlayerPlayEvent(track: zikrItem));
     await Future.delayed(const Duration(milliseconds: 2000));
     await Future.delayed(AzkarAudioPlayerBloc.audioPlayer?.duration ??
         const Duration(seconds: 2));
-    return true;
+    return Future.value(true);
   });
 }
 
@@ -38,7 +40,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   di.init();
   audioPlayerBloc = AzkarAudioPlayerBloc();
-
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   await JustAudioBackground.init(
       androidNotificationChannelId: 'com.khair.azkar.notifications',

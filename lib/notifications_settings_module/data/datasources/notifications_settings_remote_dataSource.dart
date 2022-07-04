@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'dart:convert';
 
 import 'package:azkar/azkar_cache_manager.dart';
@@ -51,7 +52,6 @@ class NotificationsSettingsRemoteDataSource
   @override
   Future<void> enableNotification(int zikrId, Duration duration,
       String periodArabic, String periodEnglish) {
-    // TODO: implement enableNotification
     throw UnimplementedError();
   }
 }

@@ -31,7 +31,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Stack(
@@ -55,21 +55,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: DotsIndicator(
-                  dotsCount: 3,
-                  position: _selectedIndex.ceilToDouble(),
-                  decorator: DotsDecorator(
-                    size: const Size.square(9.0),
-                    activeSize: const Size(18.0, 9.0),
-                    activeShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                  ),
+              DotsIndicator(
+                dotsCount: 3,
+                position: _selectedIndex.ceilToDouble(),
+                decorator: DotsDecorator(
+                  size: const Size.square(9.0),
+                  activeSize: const Size(18.0, 9.0),
+                  activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 18),
-                child: Text(
+                child: const Text(
                   "تسوق من أفضل المتاجر في المملكة",
                   style: primaryTextStyle,
                   textAlign: TextAlign.start,
@@ -77,7 +75,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 8, bottom: 34),
-                child: Text(
+                child: const Text(
                   "يتيح تطبيق إجارة توفير كل العروض الموجودة في المنطقة والتي يمكنك التعامل معها و طلب خدمات الإجار و حتي البيع و التي يمكنك الإختيار منها ",
                   style: secondaryTextStyle,
                   textAlign: TextAlign.start,
@@ -113,12 +111,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           Navigator.pushReplacement(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => MainScreen()));
+                                  builder: (context) => const MainScreen()));
                         }
                       },
                     )),
                     _selectedIndex < 2
-                        ? Container(
+                        ? SizedBox(
                             width: 105,
                             child: TextButton(
                               style: TextButton.styleFrom(

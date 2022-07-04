@@ -1,12 +1,9 @@
-import 'package:azkar/azkar_cache_manager.dart';
 import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/notifications_settings_module/data/models/not_setting_item.dart';
 import 'package:azkar/shared_libs/blocs/azkar_audio_player_bloc.dart';
 import 'package:azkar/zikr_collection_module/representation/bloc/bloc/zikr_collection_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 class ZikrCollectionPage extends StatefulWidget {
   const ZikrCollectionPage({Key? key}) : super(key: key);
@@ -299,11 +296,11 @@ class _ZikrCollectionPageState extends State<ZikrCollectionPage> {
                                     ),
                                   );
                                 }
-                                return Center(
-                                  child: Container(
+                                return const Center(
+                                  child: SizedBox(
                                     width: 16,
                                     height: 16,
-                                    child: const CircularProgressIndicator(
+                                    child: CircularProgressIndicator(
                                       strokeWidth: 1,
                                     ),
                                   ),
