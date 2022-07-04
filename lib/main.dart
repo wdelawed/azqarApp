@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/main_module/presentation/bloc/prayertimings_bloc.dart';
 import 'package:azkar/notifications_settings_module/data/models/not_setting_item.dart';
@@ -16,13 +18,21 @@ import 'dependency_injection.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
 
 void callbackDispatcher() async {
-  await Firebase.initializeApp();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   await JustAudioBackground.init(
       androidNotificationChannelId: 'com.khair.azkar.notifications',
       androidNotificationChannelName: 'الأذكار',
       androidNotificationOngoing: true,
       notificationColor: appButtonPrimaryColor);
+  await Firebase.initializeApp();
+  Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    final List<dynamic> errorAndStacktrace = pair;
+    await FirebaseCrashlytics.instance.recordError(
+      errorAndStacktrace.first,
+      errorAndStacktrace.last,
+      fatal: true,
+    );
+  }).sendPort);
+
   audioPlayerBloc ??= AzkarAudioPlayerBloc();
   Workmanager().executeTask((task, inputData) async {
     final zikrItem = NotSettingItem.fromMap(inputData ?? {});
