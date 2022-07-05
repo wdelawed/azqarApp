@@ -349,7 +349,7 @@ class _NotificationsSettingsPageState extends State<NotificationsSettingsPage> {
   }
 
   void changeNotificationSettings(NotSettingItem zikr) async {
-    final res = await showDialog(
+    showDialog(
         context: context, builder: (_) => ZikrNotificationsDialog(zikr: zikr));
   }
 }

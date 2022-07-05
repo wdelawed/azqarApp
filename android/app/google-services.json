@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "227575216037",
+    "project_id": "azkarapp-85207",
+    "storage_bucket": "azkarapp-85207.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227575216037:android:bb207d2da771b1514fda4c",
+        "android_client_info": {
+          "package_name": "com.khair.azkar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227575216037-dal87sdedoiuu1geudea1qbntlfr90he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHM8qsSfl06laoIby_37P0Vyh1lxdBpTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227575216037-dal87sdedoiuu1geudea1qbntlfr90he.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

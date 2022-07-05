@@ -13,6 +13,7 @@ class ZikrNotificationsDialog extends StatefulWidget {
       : super(key: key);
   @override
   State<ZikrNotificationsDialog> createState() =>
+      // ignore: no_logic_in_create_state
       _ZikrNotificationsDialogState(zikr);
 }
 
@@ -135,7 +136,8 @@ class _ZikrNotificationsDialogState extends State<ZikrNotificationsDialog> {
                 controller: _expandableController,
                 header: Container(
                   //color: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Text(
                     "إختيار وقت التذكير",
                     style: secondaryTextStyle?.copyWith(
@@ -146,7 +148,7 @@ class _ZikrNotificationsDialogState extends State<ZikrNotificationsDialog> {
                   color: Colors.red,
                 ),
                 expanded: notificationsEnabled
-                    ? Container(
+                    ? SizedBox(
                         height: notificationsEnabled ? 310 : 0,
                         child: ListView.separated(
                             shrinkWrap: true,
@@ -227,14 +229,14 @@ class _ZikrNotificationsDialogState extends State<ZikrNotificationsDialog> {
                       "تم",
                       style: secondaryTextStyle?.copyWith(color: Colors.white),
                     ),
-                    style: TextButton.styleFrom(fixedSize: Size(150, 46)),
+                    style: TextButton.styleFrom(fixedSize: const Size(150, 46)),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     style: TextButton.styleFrom(
-                        fixedSize: Size(100, 46),
+                        fixedSize: const Size(100, 46),
                         backgroundColor: Colors.white,
                         onSurface: Colors.red),
                     child: const Text(

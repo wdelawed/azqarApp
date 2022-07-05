@@ -1,7 +1,5 @@
 import 'package:azkar/main_module/data/exceptions.dart';
 import 'package:azkar/main_module/data/data_sources/remote_datasource.dart';
-import 'package:azkar/main_module/data/models/prayer_timing/prayer_timing.dart';
-import 'package:azkar/main_module/domain/entities/prayer_timing_entity/prayer_timing_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,10 +15,8 @@ void main() {
       try {
         final res = await remoteDataSource.getPrayerMonthCalendar(
             "51.508515", "-0.1254872", "6", "2022");
-        success = res is List<PrayerTiming> &&
-            res.isNotEmpty &&
-            res[0].timings != null &&
-            res[0].date != null;
+        success =
+            res.isNotEmpty && res[0].timings != null && res[0].date != null;
       } on ServerException {
         success = false;
       }
@@ -37,11 +33,10 @@ void main() {
       //test
       bool success = false;
       try {
-        final res = await remoteDataSource.getPrayerMonthCalendar(
+        await remoteDataSource.getPrayerMonthCalendar(
             "51.508515", "-0.1254872", "6", "2022");
-        final entity = res[0].toEntity();
 
-        success = entity != null && entity is PrayerTimingEntity;
+        success = true;
       } on ServerException {
         success = false;
       }

@@ -16,7 +16,7 @@ void main() {
       final repo = PrayerTimingsRepository(
           remoteDataSource: reomteDataSource, localDataSource: localDataSource);
       final currentDate = DateTime.now();
-      final day = currentDate.day.toString();
+      final int day = currentDate.day;
       final year = currentDate.year.toString();
 
       String? month = months[currentDate.month];
@@ -30,7 +30,7 @@ void main() {
       //assert
       expect(true, equals(result.isRight));
       expect(result.right, isA<PrayerTimingEntity>());
-      expect(day, equals(result.right.gregorian?.day));
+      expect(day, equals(int.tryParse(result.right.gregorian?.day ?? "-1")));
       expect(month, equals(result.right.gregorian?.month));
       expect(year, equals(result.right.gregorian?.year));
     });

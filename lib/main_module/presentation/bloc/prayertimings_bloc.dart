@@ -14,8 +14,11 @@ class PrayertimingsBloc extends Bloc<PrayertimingsEvent, PrayertimingsState> {
       emit(PrayerTimingsLoading());
 
       final _res = await getPrayerTimings.execute(event.lat, event.lng);
-      _res.fold((failure) => emit(PrayerTimingsError(msg: failure.message)),
-          (data) => emit(PrayerTimingsLoaded(todaysTimings: data)));
+      _res.fold((failure) {
+        emit(PrayerTimingsError(msg: failure.message));
+      }, (data) {
+        emit(PrayerTimingsLoaded(todaysTimings: data));
+      });
     });
   }
 }

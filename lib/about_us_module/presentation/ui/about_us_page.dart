@@ -159,7 +159,7 @@ class AboutUsPage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "محمد أحمد محمد العوض - FullStack Developer",
+                                      "محمد أحمد محمد العوض - Flutter Developer",
                                       style: secondaryTextStyle?.copyWith(
                                           height: 2),
                                     ),
@@ -170,44 +170,6 @@ class AboutUsPage extends StatelessWidget {
                                     ),
                                     Text(
                                       "صفاء شهاب - Software Tester",
-                                      style: secondaryTextStyle?.copyWith(
-                                          height: 2),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 17),
-                                      child: Divider(
-                                        thickness: 1,
-                                        color: const Color(0xff707070)
-                                            .withOpacity(.11),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 30),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(bottom: 11),
-                                      child: const Text(
-                                        "فريق التصميم و الفنون البصرية",
-                                        style: primaryTextStyle,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Artist - منال سعيد محمد عبد الله",
-                                      style: secondaryTextStyle?.copyWith(
-                                          height: 2),
-                                    ),
-                                    Text(
-                                      "Graphic Designer - أحمد سيف الدين محمد",
-                                      style: secondaryTextStyle?.copyWith(
-                                          height: 2),
-                                    ),
-                                    Text(
-                                      "Design Lead , UXD - محمد محمد عكاشة",
                                       style: secondaryTextStyle?.copyWith(
                                           height: 2),
                                     ),

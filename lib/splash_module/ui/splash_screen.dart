@@ -1,6 +1,5 @@
 import 'package:azkar/config/global_dart.dart';
 import 'package:azkar/onboarding_module/ui/on_boarding_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -53,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: const [
                   Text(
                     "Powered by AZQAR",
                     style: primaryTextStyle,
